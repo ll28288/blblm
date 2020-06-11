@@ -367,7 +367,17 @@ summary {
 
 
 <pre class="r"><code>library(blblm)
-library(stats)</code></pre>
+library(stats)
+library(tidyverse)
+#&gt; -- Attaching packages -------------------------------------------------------------------------------------------------------------------------- tidyverse 1.3.0 --
+#&gt; v ggplot2 3.3.0     v purrr   0.3.4
+#&gt; v tibble  3.0.0     v dplyr   0.8.5
+#&gt; v tidyr   1.0.2     v stringr 1.4.0
+#&gt; v readr   1.3.1     v forcats 0.5.0
+#&gt; -- Conflicts ----------------------------------------------------------------------------------------------------------------------------- tidyverse_conflicts() --
+#&gt; x dplyr::filter() masks stats::filter()
+#&gt; x dplyr::lag()    masks stats::lag()
+library(bench)</code></pre>
 <p>In this package we are going to apply the Bag of Bootstraps to the linear regression function. We begin with randomly spliting our dataset into m subset. For each subset we do bootstraps and we fit the model for each of bootstrap sample. Then we reduce the resuld into our final coefficients by taking the mean. Also, we have our sigma of the model estimated with this method. In the beginng I will talk aobut the base function blblm.</p>
 <p>We are using the mtcars dataset for the running. This is how user should fit the model, m is the number of subset of data you want to split into an B is the number of bootstraps you want to do.</p>
 <pre class="r"><code>fit &lt;- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
@@ -387,28 +397,206 @@ class(x)
 #&gt; [1] &quot;blblm&quot;</code></pre>
 <p>Other than thesee 3 functions base on the linear regression. In this pacakge, I also add a model for logistic regression. So instead of fitting a linear regssion , now we use the bag of little bootstraps to fit the logistic regression. However, there is a problem for this function. In order to fit the correct result, we need to use a proper dataset, it need to be design for logistic regression and large enough. If not, it will create warnings, because of the boostraps. Thus, when user trying to test this function, I recommand them carefully choose the dataset they use, or they can use the dataset test_data provide together with this package. First is the blbglm function. This is the base function for fitting a logistic regression</p>
 <pre class="r"><code>y3=blbglm(vs~wt,data=mtcars,m=3,B=100)
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
 #&gt; Warning: glm.fit: algorithm did not converge
 #&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
 
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
-#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
-#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
 #&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
-#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
-#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
 #&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
 #&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
-#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred</code></pre>
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced
+#&gt; Warning: glm.fit: algorithm did not converge
+#&gt; Warning: glm.fit: fitted probabilities numerically 0 or 1 occurred
+#&gt; Warning in sqrt(sum(w * (e^2))/(sum(w) - p)): NaNs produced</code></pre>
 <p>You can see the warnning from this exmaple.</p>
 <p>Same as the blblm function. This package also provide a parLapply version for this function. That is the blbglm_par. This function have the same input as the blblm_par function.</p>
 <pre class="r"><code>cl=makec(4)
@@ -422,6 +610,27 @@ x=blbglm_par_c(vs~wt*hp,data=mtcars,m=3,B=100,cl=cl)
 stopc(cl)
 class(x)
 #&gt; [1] &quot;blblm&quot;</code></pre>
+<p>Here is a benchmark of the function blblm and blblm_par function to show the difference in performance.</p>
+<pre class="r"><code>cl=makec(4)
+bench::mark(
+  blblm_par(mpg~wt*hp,data=mtcars,m=3,B=100,cl=cl),
+)
+#&gt; # A tibble: 1 x 6
+#&gt;   expression                                                          min median
+#&gt;   &lt;bch:expr&gt;                                                       &lt;bch:&gt; &lt;bch:&gt;
+#&gt; 1 blblm_par(mpg ~ wt * hp, data = mtcars, m = 3, B = 100, cl = cl) 61.8ms 64.5ms
+#&gt; # ... with 3 more variables: `itr/sec` &lt;dbl&gt;, mem_alloc &lt;bch:byt&gt;,
+#&gt; #   `gc/sec` &lt;dbl&gt;
+stopc(cl)
+bench::mark(
+  blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
+)
+#&gt; Warning: Some expressions had a GC in every iteration; so filtering is disabled.
+#&gt; # A tibble: 1 x 6
+#&gt;   expression                                            min median `itr/sec`
+#&gt;   &lt;bch:expr&gt;                                          &lt;bch&gt; &lt;bch:&gt;     &lt;dbl&gt;
+#&gt; 1 blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100) 187ms  188ms      5.24
+#&gt; # ... with 2 more variables: mem_alloc &lt;bch:byt&gt;, `gc/sec` &lt;dbl&gt;</code></pre>
 
 
 

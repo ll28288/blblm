@@ -13,6 +13,8 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(blblm)
 library(stats)
+library(tidyverse)
+library(bench)
 ```
 
 In this package we are going to apply the Bag of Bootstraps to the linear regression function. We begin with randomly spliting our dataset into m subset. For each subset we do bootstraps and we fit the model for each of bootstrap sample. Then we reduce the resuld into our final coefficients by taking the mean. Also, we have our sigma of the model estimated with this method. In the beginng I will talk aobut the base function blblm.
@@ -64,4 +66,15 @@ cl=makec(4)
 x=blbglm_par_c(vs~wt*hp,data=mtcars,m=3,B=100,cl=cl)
 stopc(cl)
 class(x)
+```
+Here is a benchmark of the function blblm and blblm_par function to show the difference in performance.
+```{r}
+cl=makec(4)
+bench::mark(
+  blblm_par(mpg~wt*hp,data=mtcars,m=3,B=100,cl=cl),
+)
+stopc(cl)
+bench::mark(
+  blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
+)
 ```
