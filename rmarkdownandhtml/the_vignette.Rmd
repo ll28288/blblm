@@ -1,10 +1,6 @@
 ---
-title: "my-vignette"
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{my-vignette}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+title: "The vignettes"
+output: html_document
 ---
 
 ```{r, include = FALSE}
@@ -42,5 +38,30 @@ For the blblm_f function there is a little difference. Althought this function a
 ```{r}
 planf(4)
 x=blblm_f(mpg~wt*hp,data=mtcars,m=3,B=100)
+class(x)
+```
+
+Other than thesee 3 functions base on the linear regression. In this pacakge, I also add a model for logistic regression. So instead of fitting a linear regssion
+, now we use the bag of little bootstraps to fit the logistic regression. However, there is a problem for this function. In order to fit the correct result, we need to use a proper dataset, it need to be design for logistic regression and large enough. If not, it will create warnings, because of the boostraps. Thus, when user trying to test this function, I recommand them carefully choose the dataset they use, or they can use the dataset test_data provide together with this package.
+First is the blbglm function. This is the base function for fitting a logistic regression
+```{r}
+y3=blbglm(vs~wt,data=mtcars,m=3,B=100)
+```
+You can see the warnning from this exmaple.
+
+Same as the blblm function. This package also provide a parLapply version for this function. That is the blbglm_par. This function have the same input as the blblm_par function. 
+
+```{r}
+cl=makec(4)
+x=blbglm_par(vs~wt*hp,data=mtcars,m=3,B=100,cl=cl)
+stopc(cl)
+class(x)
+```
+
+Actually the warnings create by the funciton is because of the part blblmsigma which calculate the sigma value for the function. Because of some bad bootstraps samples which will cause the warning. So, I write a function which only computer the coefficients, but not the sigma. You can try the blbglm_par_c function to do this. This function have the same input as blbglm_par function.
+```{r}
+cl=makec(4)
+x=blbglm_par_c(vs~wt*hp,data=mtcars,m=3,B=100,cl=cl)
+stopc(cl)
 class(x)
 ```

@@ -23,6 +23,7 @@ create logistic linear regression with the method of bootstrips, with people sel
 }
 \examples{
 \dontrun{
+cl=makec(2)
 x=blbglm(mpg~wt,data=mtcars,m=3,B=100)
 stopCluster(cl)
 }

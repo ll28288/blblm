@@ -211,6 +211,7 @@ lm1 <- function(formula, data, freqs) {
 #' @export
 #' @examples
 #' \dontrun{
+#' cl=makec(2)
 #' x=blbglm(mpg~wt,data=mtcars,m=3,B=100)
 #' stopCluster(cl)
 #' }
