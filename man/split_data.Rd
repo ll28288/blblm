@@ -2,10 +2,20 @@
 % Please edit documentation in R/blblm.R
 \name{split_data}
 \alias{split_data}
-\title{split data into m parts of approximated equal sizes}
+\title{split the data
+split data into m subdata}
 \usage{
 split_data(data, m)
 }
+\arguments{
+\item{data}{the data you want to regression}
+
+\item{m}{number of subdata}
+}
+\value{
+data.frame
+}
 \description{
-split data into m parts of approximated equal sizes
+split the data
+split data into m subdata
 }

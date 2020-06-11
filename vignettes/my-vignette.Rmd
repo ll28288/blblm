@@ -1,0 +1,46 @@
+---
+title: "my-vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{my-vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(blblm)
+library(stats)
+```
+
+In this package we are going to apply the Bag of Bootstraps to the linear regression function. We begin with randomly spliting our dataset into m subset. For each subset we do bootstraps and we fit the model for each of bootstrap sample. Then we reduce the resuld into our final coefficients by taking the mean. Also, we have our sigma of the model estimated with this method. In the beginng I will talk aobut the base function blblm.
+
+We are using the mtcars dataset for the running. This is how user should fit the model, m is the number of subset of data you want to split into an B is the number of bootstraps you want to do.
+```{r}
+fit <- blblm(mpg ~ wt * hp, data = mtcars, m = 3, B = 100)
+class(fit)
+```
+You can see the fit is in the class of blblm. Fit is a list containning you estimates and the formula. This means in order to get the coefficients you need to use other function. In order to access to the exact value of coefficients and sigma you need tou se the function sigma and coef to do so.
+
+Other then the base function. In order to increase the speed of the blblm function I include two fucntion The blblm_par(formula, data, m = 10, B = 5000,cl) and the other one is blblm_f(formula, data, m = 10, B = 5000). The difference between this two function is that blbm_par is base on parLapply in the parallel package, but the blblm_f function is base on future_map in the furrr pacakge.
+First I will show how to use the blblm_par function. In order to use it you need to use makec function to create the number of cluster you want to use and enter it as cl. After you finish computing you will need to run the stopc function to stop your clustering. (remind: it is important you stop your clustering after usage)
+
+```{r}
+cl=makec(4)
+x=blblm_par(mpg~wt*hp,data=mtcars,m=3,B=100,cl=cl)
+stopc(cl)
+class(x)
+```
+For the blblm_f function there is a little difference. Althought this function also use thee strategy of parallel, it is base on the future_map function in the furrr package. This function do not require an extra input like cl. However, it need the user to specified the plan before using the function. In this package, it provide a function called planf, which allowed the user to create a plan base one the number of workers he want. Below is some sample code.
+
+```{r}
+planf(4)
+x=blblm_f(mpg~wt*hp,data=mtcars,m=3,B=100)
+class(x)
+```
