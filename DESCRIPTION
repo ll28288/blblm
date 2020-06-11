@@ -1,11 +1,10 @@
 Package: blblm
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Bag of little Bootstrap on regressions
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Randy Lai and Yuan Chen
+Maintainer: The package maintainer <charliechen1998@163.com>
+Description: Using the method of Bag of little Bootstrap to calculate the regression. Include in this pacakge. A blblm function for blb on linear regression and a blbglm function on logistic regression.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

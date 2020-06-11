@@ -11,8 +11,7 @@
 \alias{Bag}
 \alias{of}
 \alias{Bootstraps}
-\title{blblm: What the Package Does (Title Case)}
+\title{blblm: Bag of little Bootstrap on regressions}
 \description{
-More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Using the method of Bag of little Bootstrap to calculate the regression. Include in this pacakge. A blblm function for blb on linear regression and a blbglm function on logistic regression.
 }
